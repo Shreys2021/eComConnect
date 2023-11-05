@@ -1,10 +1,15 @@
 **Usage**
 
 Register and log in as a user to access the features.
+
 Browse and search for products.
+
 Add products to the shopping cart.
+
 Adjust quantities and remove items from the cart.
+
 Place orders with selected products.
+
 View order history to track your purchases.
 
 **API Endpoints**
