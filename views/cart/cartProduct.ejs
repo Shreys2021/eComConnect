@@ -1,0 +1,105 @@
+<% layout('layout/biolerplate') %>
+
+
+
+    <div class="container mt-5">
+        <h1 class="text-center">Your Cart</h1>
+        <div class="card">
+            <div class="card-body">
+                <% if (userCart.products.length===0) { %>
+                    <div class="alert alert-info">
+                        <p>You Cart is Empty.</p>
+                    </div>
+                    <% } else { %>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Price</th>
+                                    <th>Description</th>
+                                    <th>Availability</th>
+                                    <th>Quantity</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% userCart.products.forEach(product=> { %>
+                                    <tr>
+                                        <td>
+                                            <%= product._id %>
+                                        </td>
+                                        <td>
+                                            <%= product.name %>
+                                        </td>
+                                        <td>$<%= product.price %>
+                                        </td>
+                                        <td>
+                                            <%= product.description %>
+                                        </td>
+                                        <td>
+                                            <span class="<%= product.availability ? 'text-success' : 'text-danger' %>">
+                                                <%= product.availability ? 'Available' : 'Out of stock' %>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <input type="number" name="quantity" value="1" min="1" max="10">
+                                        </td>
+                                        <td>
+                                            <form action="/remove-product/<%= product._id %>?_method=DELETE"
+                                                method="POST">
+                                                <button type="submit" class="btn btn-danger">Remove</button>
+                                            </form>
+                                        </td>
+                                        <input type="hidden" name="product_id" value="<%= product._id %>">
+                                    </tr>
+                                    <% }); %>
+                            </tbody>
+                        </table>
+                        <form action="javascript:void(0);" onsubmit="submitOrder()">
+                            <button type="submit" class="btn btn-primary">Submit Order</button>
+                        </form>
+                        <% } %>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        function submitOrder() {
+            const orderData = [];
+            const tableRows = document.querySelectorAll('table tbody tr');
+            tableRows.forEach(row => {
+                const productId = row.querySelector('input[name="product_id"]').value;
+                const productName = row.querySelector('td:nth-child(1)').textContent.trim();
+                const productPrice = parseFloat(row.querySelector('td:nth-child(2)').textContent.trim().substring(1));
+                const quantity = parseInt(row.querySelector('input[name="quantity"]').value);
+                orderData.push({ id: productId, name: productName, price: productPrice, quantity: quantity });
+            });
+
+            fetch('/submit-order', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(orderData),
+            }).then(response => {
+                emptyCart();
+                window.location.href = '/thankYou';
+            });
+        }
+        function emptyCart() {
+            fetch('/empty-cart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+                .then(response => {
+                    if (response.ok) {
+                        alert('Cart is now empty');
+                    } else {
+                        alert('Failed to empty the cart');
+                    }
+                });
+        }
+    </script>

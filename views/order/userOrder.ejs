@@ -1,0 +1,44 @@
+<% layout('layout/biolerplate') %>
+
+    <div class="container mt-5">
+        <h1 class="text-center">Your Orders</h1>
+        <% if (userOrders.length===0) { %>
+            <div class="alert alert-info">
+                <p>You have no orders.</p>
+            </div>
+            <% } else { %>
+                <table class="table">
+                    <thead>
+                        <tr>
+
+                            <th>Order Date</th>
+                            <th>Products</th>
+                            <th>Total Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% userOrders.forEach(order=> { %>
+                            <tr>
+                                <td>
+                                    <%= order.orderDate.toDateString() %>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <% order.products.forEach(orderItem=> { %>
+
+                                            <li>
+                                                <b>
+                                                    <%= orderItem.product.name %>
+
+                                            </li>
+                                            <% }); %>
+                                    </ul>
+                                </td>
+                                <td>$<%= order.totalPrice %>
+                                </td>
+                            </tr>
+                            <% }); %>
+                    </tbody>
+                </table>
+                <% } %>
+    </div>
