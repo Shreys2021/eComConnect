@@ -1,4 +1,5 @@
 **Usage**
+
 Register and log in as a user to access the features.
 Browse and search for products.
 Add products to the shopping cart.
@@ -7,6 +8,7 @@ Place orders with selected products.
 View order history to track your purchases.
 
 **API Endpoints**
+
 /register: User registration.
 /login: User login.
 /categories: List of product categories.
@@ -18,6 +20,7 @@ View order history to track your purchases.
 /userOrders: View order history.
 
 **Technologies Used**
+
 Node.js
 Express.js
 MongoDB
