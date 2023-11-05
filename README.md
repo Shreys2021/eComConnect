@@ -43,10 +43,17 @@ View order history to track your purchases.
 **Technologies Used**
 
 Node.js
+
 Express.js
+
 MongoDB
+
 Mongoose
+
 JWT (JSON Web Tokens)
+
 EJS (Embedded JavaScript)
+
 HTML/CSS
+
 Bootstrap
